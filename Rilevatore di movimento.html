@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<head>
+    <title>
+        Rilevatore di movimento
+    </title>
+    <script src="https://cdn.jsdelivr.net/npm/gyronorm/dist/gyronorm.complete.min.js"></script>
+
+<script>
+  window.onload = function() {
+    let gn = new GyroNorm();
+  
+    gn.init().then(() => {
+      gn.start();
+    }).catch((e) => {
+      console.error('Impossibile inizializzare il sensore del giroscopio', e);
+    });
+    
+    const speed = 0.01;
+    let lastTimestamp = null;
+    
+    const refresh = function(timestamp) {
+      if (lastTimestamp !== null) {
+        const delay = timestamp - lastTimestamp;
+        const o = gn.getScreenAdjustedEuler();
+        const step = speed * delay;
+        // Applica lo step sulla proprietà CSS "transform" per ruotare l'elemento in base ai dati del giroscopio
+      }
+      lastTimestamp = timestamp;
+      window.requestAnimationFrame(refresh);
+    };
+    
+    window.requestAnimationFrame(refresh);
+  };
+</script>
+</head>
+
+
