@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel = "stylesheet" href = "css.css">
+    <meta charset="UTF-8">
+    <title>Quiz</title>
+</head>
+<body onload="loadQuestion();">
+    <div class="container">
+        <button class="button" onclick="window.location.href = 'index.html';">Pagina iniziale</button>
+      </div>
+    <div id="quiz">
+        <h1>Quiz di fisica</h1>
+        <p id="question"></p>
+        <button id="choice1" onclick="choose(0);"></button>
+        <button id="choice2" onclick="choose(1);"></button>
+        <button id="choice3" onclick="choose(2);"></button>
+        <button id="choice4" onclick="choose(3);"></button>
+        <p id="score">Punteggio: 0</p>
+    </div>
+    <script>
+        
+        // Definizione delle domande
+        function getQuestions() {
+  return [
+    {
+      question: "Quale delle seguenti grandezze fisiche rappresenta la quantità di moto di un oggetto?",
+      choices: ["Velocità", "Accelerazione", "Impulso", "Forza"],
+      correctAnswer: 2
+    },
+    {
+      question: "Qual è la legge fisica che afferma che la pressione di un gas è inversamente proporzionale al suo volume, a temperatura costante?",
+      choices: ["Legge di Ohm", "Legge di Boyle", "Legge di Archimede", "Legge di Newton"],
+      correctAnswer: 1
+    },
+    {
+      question: "Qual è l'unità di misura della potenza in fisica?",
+      choices: ["Joule", "Watt", "Newton", "Pascal"],
+      correctAnswer: 1
+    },
+    {
+      question: "Quale delle seguenti affermazioni descrive correttamente la legge di conservazione dell'energia?",
+      choices: ["L'energia non può essere creata né distrutta, ma solo trasformata da una forma all'altra.", "L'energia totale di un sistema isolato rimane costante nel tempo.", "L'energia cinetica è uguale alla massa moltiplicata per l'accelerazione.", "L'energia potenziale è uguale alla massa moltiplicata per l'altezza."],
+      correctAnswer: 0
+    },
+    {
+      question: "Quale delle seguenti grandezze fisiche è una grandezza vettoriale?",
+      choices: ["Temperatura", "Lunghezza", "Massa", "Velocità"],
+      correctAnswer: 3
+    }
+  ];
+}
+
+// Variabili globali
+        let questions = getQuestions();
+        let currentQuestion = 0;
+        let score = 0;
+
+        // Recupero degli elementi HTML
+        const questionEl = document.getElementById("question");
+        const choice1El = document.getElementById("choice1");
+        const choice2El = document.getElementById("choice2");
+        const choice3El = document.getElementById("choice3");
+        const choice4El = document.getElementById("choice4");
+        const scoreEl = document.getElementById("score");
+
+        // Funzione per caricare la domanda corrente
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            questionEl.textContent = q.question;
+            choice1El.textContent = q.choices[0];
+            choice2El.textContent = q.choices[1];
+            choice3El.textContent = q.choices[2];
+            choice4El.textContent = q.choices[3];
+        }
+
+// Funzione per gestire il click sul pulsante di scelta
+function choose(answer) {
+    if (answer === questions[currentQuestion].correctAnswer) {
+        score++;
+        scoreEl.textContent = `Punteggio: ${score}`;
+    }
+
+    // Passaggio alla domanda successiva
+    currentQuestion++;
+    if (currentQuestion >= questions.length) {
+        // Fine del quiz
+        quiz.innerHTML = `
+            <h1>Fine del quiz</h1>
+            <p>Hai ottenuto ${score} punti su ${questions.length} domande.</p>
+            <button onclick="location.reload()">Ricomincia</button>
+            <button onclick="window.location.href = 'index.html';">Torna alla home page</button>
+        `;
+    } else {
+        // Caricamento della domanda successiva
+        loadQuestion();
+    }
+}
+</script>
+</body>
+</html>

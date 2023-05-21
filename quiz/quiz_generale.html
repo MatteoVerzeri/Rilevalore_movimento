@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel = "stylesheet" href = "css.css">
+    <meta charset="UTF-8">
+    <title>Quiz</title>
+</head>
+<body onload="loadQuestion();">
+    <div class="container">
+        <button class="button" onclick="window.location.href = 'index.html';">Pagina iniziale</button>
+      </div>
+    <div id="quiz">
+        <h1>Quiz di cultura generale</h1>
+        <p id="question"></p>
+        <button id="choice1" onclick="choose(0);"></button>
+        <button id="choice2" onclick="choose(1);"></button>
+        <button id="choice3" onclick="choose(2);"></button>
+        <button id="choice4" onclick="choose(3);"></button>
+        <p id="score">Punteggio: 0</p>
+    </div>
+    <script>
+        
+        // Definizione delle domande
+        function getQuestions() {
+  return [
+    {
+      question: "In che anno è stata fondata Roma?",
+      choices: ["753 a.C.", "27 a.C.", "476 d.C.", "1453 d.C."],
+      correctAnswer: 0
+    },
+    {
+      question: "Chi ha dipinto 'La Gioconda'?",
+      choices: ["Raffaello", "Leonardo da Vinci", "Michelangelo", "Caravaggio"],
+      correctAnswer: 1
+    },
+    {
+      question: "Quale è la valuta ufficiale del Giappone?",
+      choices: ["Dollaro statunitense", "Yuan cinese", "Euro", "Yen"],
+      correctAnswer: 3
+    },
+    {
+      question: "In quale paese si trova la Torre Eiffel?",
+      choices: ["Italia", "Regno Unito", "Spagna", "Francia"],
+      correctAnswer: 3
+    },
+    {
+      question: "Quale è il più grande oceano del mondo?",
+      choices: ["Oceano Indiano", "Oceano Atlantico", "Oceano Pacifico", "Oceano Artico"],
+      correctAnswer: 2
+    }
+  ];
+}
+
+// Variabili globali
+        let questions = getQuestions();
+        let currentQuestion = 0;
+        let score = 0;
+
+        // Recupero degli elementi HTML
+        const questionEl = document.getElementById("question");
+        const choice1El = document.getElementById("choice1");
+        const choice2El = document.getElementById("choice2");
+        const choice3El = document.getElementById("choice3");
+        const choice4El = document.getElementById("choice4");
+        const scoreEl = document.getElementById("score");
+
+        // Funzione per caricare la domanda corrente
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            questionEl.textContent = q.question;
+            choice1El.textContent = q.choices[0];
+            choice2El.textContent = q.choices[1];
+            choice3El.textContent = q.choices[2];
+            choice4El.textContent = q.choices[3];
+        }
+
+// Funzione per gestire il click sul pulsante di scelta
+function choose(answer) {
+    if (answer === questions[currentQuestion].correctAnswer) {
+        score++;
+        scoreEl.textContent = `Punteggio: ${score}`;
+    }
+
+    // Passaggio alla domanda successiva
+    currentQuestion++;
+    if (currentQuestion >= questions.length) {
+        // Fine del quiz
+        quiz.innerHTML = `
+            <h1>Fine del quiz</h1>
+            <p>Hai ottenuto ${score} punti su ${questions.length} domande.</p>
+            <button onclick="location.reload()">Ricomincia</button>
+            <button onclick="window.location.href = 'index.html';">Torna alla home page</button>
+        `;
+    } else {
+        // Caricamento della domanda successiva
+        loadQuestion();
+    }
+}
+</script>
+</body>
+</html>
+
